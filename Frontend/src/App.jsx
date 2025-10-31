@@ -20,11 +20,16 @@ const[review, setReview] = useState(``)
     prism.highlightAll()
   }, [])
 
-  async function reviewCode(){
-    const response = await axios.post('https://localhost:3000/ai/get-review', {code})
-
-    setReview(response.data)
+  async function reviewCode() {
+  try {
+    const response = await axios.post(`${process.env.REACT_APP_API_URL}/ai/get-review`, { code });
+    setReview(response.data);
+  } catch (error) {
+    console.error("Error fetching review:", error);
+    setReview("⚠️ Unable to connect to AI Review Service. Please try again later.");
   }
+}
+
 
   return (
     <>
